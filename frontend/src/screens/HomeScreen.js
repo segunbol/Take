@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
 //import data from "../data";
 import axios from "axios";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
+import Product from "../components/Product";
+import { Helmet } from "react-helmet-async";
 
 // axios.get('/users')
 //   .then(res => {
@@ -43,6 +44,9 @@ function HomeScreen() {
   }, []);
   return (
     <div>
+      <Helmet>
+        <title>Deal Dey</title>
+      </Helmet>
       <h1>Featured Products</h1>
       <div className="products">
         {
@@ -51,7 +55,7 @@ function HomeScreen() {
           ): (
           <Row>
             {products.map((product) => (
-              <Col sm={6} md={4} lg={3} className="mb-3">
+              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
                <Product product={product}></Product>
             </Col>
           ))}
