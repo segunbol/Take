@@ -10,7 +10,7 @@ header {
 } */
 .site-container {
   min-height: 100vh;
-  font-weight: 900;
+  font-weight: 400;
 }
 main {
   flex: 1;
@@ -19,7 +19,7 @@ main {
 
 .btn-primary,
 .btn-outline-primary {
-  background-color:#f0c040;
+  background-color: #f0c040;
   color: #000000;
 }
 .products {
@@ -28,8 +28,8 @@ main {
   justify-content: center;
 }
 
-.product{
-  border:1px #404040 solid;
+.product {
+  border: 1px #404040 solid;
   margin: 1rem;
 }
 
@@ -56,7 +56,6 @@ main {
 
 .small-container {
   max-width: 600px;
-  
 }
 
 .checkout-steps > div {
