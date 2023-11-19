@@ -10,7 +10,7 @@ import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 import LoadingBox from '../components/LoadingBox';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { getError, baseURL } from '../utils';
 import Axios  from 'axios';
 
 const reducer = (state, action) => {
@@ -49,7 +49,7 @@ export default function PlaceOrderScreen() {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await Axios.post(
-        '/api/orders',
+        `${baseURL}orders`,
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

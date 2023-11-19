@@ -1,43 +1,54 @@
-import jwt from 'jsonwebtoken';
-import mg from 'mailgun-js'
+import jwt from "jsonwebtoken";
+import mg from "mailgun-js";
 
 export const generateToken = (user) => {
+  console.log(user)
   return jwt.sign(
     {
       _id: user._id,
+      userId: user.id,
       name: user.name,
       email: user.email,
+      phone: user.phone,
+      city: user.city,
+      country: user.country,
       isAdmin: user.isAdmin,
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '30d',
+      expiresIn: "30d",
     }
   );
 };
-
+ 
 export const isAuth = (req, res, next) => {
+  // console.log(req.headers)
   const authorization = req.headers.authorization;
+  // console.log(`isAuth Valid ${JSON.stringify(authorization)}`)
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
+    console.log(token)
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
-        res.status(401).send({ message: 'Invalid Token' });
+        console.log(err)
+        res.status(401).send({ message: "Invalid Token", err });
       } else {
         req.user = decode;
+        console.log(`isAuth Valid ${JSON.stringify(req.user)}`)
         next();
       }
     });
   } else {
-    res.status(401).send({ message: 'No Token' });
+    res.status(401).send({ message: "No Token" });
   }
 };
 
 export const isAdmin = (req, res, next) => {
+  console.log(`isAdmin Valid ${req}`)
   if (req.user && req.user.isAdmin) {
     next();
   } else {
-    res.status(401).send({ message: 'Invalid Admin Token' });
+    res.status(401).send({ message: "Invalid Admin Token" });
   }
 };
 
@@ -46,7 +57,6 @@ export const mailgun = () =>
     apiKey: process.env.MAILGUN_API_KEY,
     domain: process.env.MAILGUN_DOMIAN,
   });
-
 
 export const payOrderEmailTemplate = (order) => {
   return `<h1>Thanks for shopping with us</h1>
@@ -72,7 +82,7 @@ export const payOrderEmailTemplate = (order) => {
     </tr>
   `
     )
-    .join('\n')}
+    .join("\n")}
   </tbody>
   <tfoot>
   <tr>
@@ -105,4 +115,4 @@ export const payOrderEmailTemplate = (order) => {
   Thanks for shopping with us.
   </p>
   `;
-}; 
+};

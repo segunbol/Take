@@ -4,6 +4,7 @@ import Order from '../models/orderModel.js';
 import { isAuth, isAdmin, mailgun, payOrderEmailTemplate } from '../utils.js';
 import User from '../models/userModel.js';
 import Product from '../models/productModel.js';
+import Category from '../models/categoryModel.js';
 
 const orderRouter = express.Router();
 
@@ -12,6 +13,7 @@ orderRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
+    console.log(req.body)
     const orders = await Order.find().populate('user', 'name');
     res.send(orders);
   })
@@ -22,26 +24,33 @@ orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const newOrder = new Order({
-      orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-      shippingAddress: req.body.shippingAddress,
-      paymentMethod: req.body.paymentMethod,
-      itemsPrice: req.body.itemsPrice,
-      shippingPrice: req.body.shippingPrice,
-      taxPrice: req.body.taxPrice,
-      totalPrice: req.body.totalPrice,
-      user: req.user._id,
-    });
-
-    const order = await newOrder.save();
-    res.status(201).send({ message: 'New Order Created', order });
-  })
-);
+    console.log(req.body)
+    try {
+      const newOrder = new Order({
+        orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+        shippingAddress: req.body.shippingAddress,
+        paymentMethod: req.body.paymentMethod,
+        itemsPrice: req.body.itemsPrice,
+        shippingPrice: req.body.shippingPrice,
+        taxPrice: req.body.taxPrice,
+        totalPrice: req.body.totalPrice,
+        user: req.user._id,
+      });
+  
+      const order = await newOrder.save();
+      res.status(201).send({ message: 'New Order Created', order });
+    }
+     catch (error) {
+      console.log(error)
+      res.status(404).json({ error: error.message });
+    }
+  }
+  ));
 
 orderRouter.get(
   '/summary',
-  isAuth,
-  isAdmin,
+  // isAuth,
+  // isAdmin,
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.aggregate([
       {
@@ -70,10 +79,10 @@ orderRouter.get(
       },
       { $sort: { _id: 1 } },
     ]);
-    const productCategories = await Product.aggregate([
+    const productCategories = await Category.aggregate([
       {
         $group: {
-          _id: '$category',
+          _id: '$name',
           count: { $sum: 1 },
         },
       },

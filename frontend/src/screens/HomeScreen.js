@@ -7,6 +7,7 @@ import Product from "../components/Product";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { baseURL } from "../utils";
 
 // axios.get('/users')
 //   .then(res => {
@@ -36,7 +37,7 @@ function HomeScreen() {
       const fetchData =async () => {
         dispatch({ type: 'FETCH_REQUEST'})
         try {
-          const result = await axios.get('/api/products');
+          const result = await axios.get(`${baseURL}products`);
           dispatch({type: 'FETCH_SUCCESS', payload: result.data})
         } catch (err) {
           dispatch({type:'FETCH_FAIL', payload: err.message})

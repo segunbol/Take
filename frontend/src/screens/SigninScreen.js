@@ -7,7 +7,7 @@ import Form  from "react-bootstrap/Form";
 import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { getError, baseURL } from '../utils';
 
 
 export default function SigninScreen() {
@@ -21,10 +21,12 @@ export default function SigninScreen() {
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { userInfo } = state;
+    console.log(userInfo)
+    console.log(state)
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-          const { data } = await Axios.post('/api/users/signin', {
+          const { data } = await Axios.post(`${baseURL}users/signin`, {
             email,
             password,
           });

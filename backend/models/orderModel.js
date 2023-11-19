@@ -18,6 +18,7 @@ const orderSchema = new mongoose.Schema(
     ],
     shippingAddress: {
       fullName: { type: String, required: true },
+      phone: { type: String, required: false},
       address: { type: String, required: true },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
@@ -25,7 +26,7 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: { type: String, required: true },
     paymentResult: {
-      id: String,
+      id: String, 
       status: String,
       update_time: String,
       email_address: String,
@@ -44,6 +45,14 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+orderSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+orderSchema.set("toJSON", {
+  virtuals: true,
+});
 
 const Order = mongoose.model('Order', orderSchema);
 export default Order;
