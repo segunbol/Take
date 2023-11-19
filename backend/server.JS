@@ -40,16 +40,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 
+const api = process.env.API_URL;
 app.use(
   "/publicfiles/uploads",
   express.static(__dirname + "./publicfiles/uploads")
 );
 
-app.get("/api/keys/paypal", (req, res) => {
+app.get(`${api}/keys/paypal`, (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || "sb");
 });
 
-const api = process.env.API_URL;
+
 app.use(`${api}/upload`, uploadRouter);
 app.use(`${api}/seed`, seedRouter);
 app.use(`${api}/products`, productRouter);

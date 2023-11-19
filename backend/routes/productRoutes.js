@@ -40,10 +40,12 @@ productRouter.post(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
+    console.log(req.body)
     const newProduct = new Product({
       name: "sample name " + Date.now(),
       slug: "sample-name-" + Date.now(),
       image: "/images/p1.jpg",
+      images: "",
       price: 0,
       category: "sample category",
       brand: "sample brand",
@@ -57,6 +59,7 @@ productRouter.post(
   })
 );
 
+//The post endpoint below is not from Amazona but from the mobile app tut
 productRouter.post(`/m/`, uploadOptions.single("image"), async (req, res) => {
   // const category = await Category.findById(req.body.category);
   // if(!category) return res.status(400).send('Invalid Category')
@@ -86,7 +89,7 @@ productRouter.post(`/m/`, uploadOptions.single("image"), async (req, res) => {
 
   res.send(product);
 });
-
+//Ends here
 productRouter.put(
   "/:id",
   isAuth,
@@ -99,7 +102,8 @@ productRouter.put(
       product.slug = req.body.slug;
       product.price = req.body.price;
       product.image = req.body.image;
-      product.categoryName = req.body.categoryName;
+      product.images = req.body.images;
+      product.category = req.body.category;
       product.brand = req.body.brand;
       product.countInStock = req.body.countInStock;
       product.description = req.body.description;
