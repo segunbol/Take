@@ -51,9 +51,9 @@ export default function CartScreen() {
                         {cartItems.map((item) => (
                             <ListGroup.Item key={item._id}>
                                 <Row className="align-items-center">
-                                    <Col md={4}>
-                                        <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail"></img>{' '}
-                                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                                    <Col md={5}>
+                                        <img src={item.image} alt={item.name} style={{width: '8rem'}} className="img-fluid rounded img-thumbnail"></img>{' '}
+                                        <Link to={`/product/${item.slug}`} style={{textDecoration: 'none'}}>{item.name}</Link>
                                     </Col>
                                     <Col md={3}>
                                         <Button variant="light" onClick={() => updateCartHandler(item, item.quantity - 1)}  disabled={item.quantity === 1}>
@@ -64,7 +64,7 @@ export default function CartScreen() {
                                             <i className="fas fa-plus-circle"></i>
                                         </Button>
                                     </Col>
-                                    <Col md={3}>${item.price}</Col>
+                                    <Col md={2}>${item.price}</Col>
                                     <Col md={2}>
                                         <Button variant="light" onClick={() => removeItemHandler(item)}>
                                             <i className="fas fa-trash"></i>

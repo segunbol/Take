@@ -9,10 +9,11 @@ import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 import uploadRouter from "./routes/uploadRoutes.js";
 import categoryRouter from "./routes/categoriesRoute.js";
-import cors from "cors"
+import cors from "cors";
 import cartItemsRoutes from "./routes/cartItems.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import reveiewsRouter from "./routes/reviewsRoute.js";
 
 dotenv.config();
 
@@ -27,11 +28,8 @@ mongoose
 
 const app = express();
 
-
-const __filename = fileURLToPath (import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-
 
 app.use(cors());
 app.options("*", cors());
@@ -50,7 +48,9 @@ app.get(`${api}/keys/paypal`, (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || "sb");
 });
 
-
+app.get("/", (req, res) => {
+  res.send("The Aje Commerce App");
+});
 app.use(`${api}/upload`, uploadRouter);
 app.use(`${api}/seed`, seedRouter);
 app.use(`${api}/products`, productRouter);
@@ -58,6 +58,7 @@ app.use(`${api}/users`, userRouter);
 app.use(`${api}/orders`, orderRouter);
 app.use(`${api}/categories`, categoryRouter);
 app.use(`${api}/cartitems`, cartItemsRoutes);
+app.use(`${api}/reviews`, reveiewsRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });

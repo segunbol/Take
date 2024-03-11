@@ -1,5 +1,5 @@
 import OrderItem from "../models/cartItems.js";
-import Order from '../models/orderModel.js';
+import Order from "../models/orderModel.js";
 
 // @desc    Create a new order item
 // @route   POST /api/orderitems
@@ -52,6 +52,7 @@ export const createCartItem = async (req, res) => {
 
     res.status(201).json(createdOrderItem);
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -151,12 +152,11 @@ export const deleteCartItems = async (req, res) => {
   }
 };
 
-
 export const deleteCartItemsAndCreateOrder = async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(req.params)
-    console.log(req.body)
+    console.log(req.params);
+    console.log(req.body);
     const cartItems = await OrderItem.find({ userId });
 
     if (cartItems.length > 0) {
@@ -165,7 +165,7 @@ export const deleteCartItemsAndCreateOrder = async (req, res) => {
         quantity: cartItem.quantity,
         product: cartItem.product,
       }));
- 
+
       // Delete cart items
       await OrderItem.deleteMany({ userId });
 

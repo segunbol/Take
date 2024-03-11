@@ -33,6 +33,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import ProductCreateScreen from './screens/ProductCreateScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -78,7 +79,7 @@ function App() {
                   <i className="fas fa-bars"></i>
               </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>Ajeeh</Navbar.Brand>
+                <Navbar.Brand>Harjeh</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -150,7 +151,7 @@ function App() {
             {categories.map((category) => (
               <Nav.Item key={category}>
                 <LinkContainer
-                  to={`/search/category=${category}`}
+                  to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
                   <Nav.Link>{category}</Nav.Link>
@@ -221,6 +222,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <ProductEditScreen />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/product/create"
+                element={
+                  <AdminRoute>
+                    <ProductCreateScreen />
                   </AdminRoute>
                 }
               ></Route>

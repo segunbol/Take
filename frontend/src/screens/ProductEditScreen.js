@@ -134,7 +134,7 @@ export default function ProductEditScreen() {
         },
       });
       dispatch({ type: "UPLOAD_SUCCESS" });
-
+      console.log(data);
       if (forImages) {
         setImages([...images, data.secure_url]);
       } else {
@@ -142,8 +142,8 @@ export default function ProductEditScreen() {
       }
       toast.success("Image uploaded successfully. click Update to apply it");
 
-      toast.success("Image uploaded successfully");
-      setImage(data.secure_url);
+      // toast.success("Image uploaded successfully");
+      // setImage(data.secure_url);
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });

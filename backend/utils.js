@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import mg from "mailgun-js";
 
 export const generateToken = (user) => {
-  console.log(user)
+  // console.log(user)
   return jwt.sign(
     {
       _id: user._id,
@@ -27,14 +27,14 @@ export const isAuth = (req, res, next) => {
   // console.log(`isAuth Valid ${JSON.stringify(authorization)}`)
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
-    console.log(token)
+    // console.log(token)
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) {
-        console.log(err)
+        // console.log(err)
         res.status(401).send({ message: "Invalid Token", err });
       } else {
         req.user = decode;
-        console.log(`isAuth Valid ${JSON.stringify(req.user)}`)
+        // console.log(`isAuth Valid ${JSON.stringify(req.user)}`)
         next();
       }
     });
@@ -44,7 +44,7 @@ export const isAuth = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  console.log(`isAdmin Valid ${req}`)
+  // console.log(`isAdmin Valid ${req}`)
   if (req.user && req.user.isAdmin) {
     next();
   } else {

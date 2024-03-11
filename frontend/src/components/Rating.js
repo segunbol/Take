@@ -1,7 +1,8 @@
 function Rating (props) {
-    const {rating, numReviews, caption}  = props;
+    const {rating, numReviews}  = props;
+    
     return (
-        <div className="rating">
+        <div className="rating" style={{  marginTop : '0rem', marginBottom:"0rem" }}>
             <span>
                 <i className={rating>=1?'fas fa-star':
                 rating>=0.5? 'fa fa-star-half-alt': 'far fa-star'} />
@@ -25,11 +26,6 @@ function Rating (props) {
             <span>
                  {numReviews} reviews
             </span>
-            {caption ? (
-                <span>{caption}</span>
-            ) : (
-                <span>{' ' + numReviews + ' reviews'}</span>
-            )}
         </div>
     )
 }

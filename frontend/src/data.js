@@ -51,4 +51,7 @@ const data = {
     ],
   };
   export default data;
+
+  // paypalEmail:sb-dku34324730950@personal.example.com
+  // password:^b8)7e7V
   

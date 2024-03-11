@@ -40,19 +40,19 @@ productRouter.post(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const newProduct = new Product({
-      name: "sample name " + Date.now(),
-      slug: "sample-name-" + Date.now(),
-      image: "/images/p1.jpg",
-      images: "",
-      price: 0,
-      category: "sample category",
-      brand: "sample brand",
-      countInStock: 0,
+      name: req.body.name,
+      slug: req.body.slug,
+      image: req.body.image,
+      images: req.body.images,
+      price: req.body.price,
+      category: req.body.category,
+      brand: req.body.brand,
+      countInStock: req.body.countInStock,
       rating: 0,
       numReviews: 0,
-      description: "sample description",
+      description: req.body.description,
     });
     const product = await newProduct.save();
     res.send({ message: "Product Created", product });
@@ -130,7 +130,7 @@ productRouter.delete(
   })
 );
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 6;
 
 productRouter.get(
   "/admin",
@@ -160,7 +160,7 @@ productRouter.get(
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
-    const category = query.category || "";
+    const categoryName = query.category || "";
     const price = query.price || "";
     const rating = query.rating || "";
     const order = query.order || "";
@@ -175,7 +175,8 @@ productRouter.get(
             },
           }
         : {};
-    const categoryFilter = category && category !== "all" ? { category } : {};
+    const categoryFilter =
+      categoryName && categoryName !== "all" ? { category: categoryName } : {};
     const ratingFilter =
       rating && rating !== "all"
         ? {
